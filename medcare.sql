@@ -52,3 +52,20 @@ insert into especialidades(nome) VALUES
 ('Cardiologia'),
 ('Pediatra'),
 ('Dermatologia')
+
+insert into medicos(especialidades_id, nome, crm, valor_consulta) VALUES
+(1, 'Paulo Henrique', '154896', 350.49),
+(2, 'Sonia Costa', '471557', 450.00),
+(3, 'Carlos Pinheiro', '893806', 475.50 )
+
+insert into consultas(medicos_id, pacientes_id, data_hora, status) VALUES
+(1, 3, '15:30 14/09', 'AGENDADA'),
+(3, 2, '16:00 02/09', 'REALIZADA'),
+(2, 1, '17:20 08/09', 'CANCELADA'),
+(3, 1, '17:20 08/09', 'AGENDADA')
+
+insert into exames_consulta(consulta_id, nome_exame, valor_exame) VALUES
+(4, 'Limpeza de pele', 200.00),
+(1, 'Teste ergométrico', 500.00),
+(1, 'Holter 24 horas', 750.00),
+(2, 'Remoção de veruga', 600.00)
