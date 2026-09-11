@@ -100,3 +100,33 @@ join veiculos on ordens_servicos.veiculo_id = veiculos.id
 join mecanicos on ordens_servicos.mecanico_id = mecanicos.id
 join clientes on ordens_servicos.id = clientes.id
 where clientes.nome = 'Oliver'
+
+select
+ordens_servicos.id,
+veiculos.placa,
+mecanicos.nome,
+ordens_servicos.valor_mao_obra,
+(ordens_servicos.valor_mao_obra + SUM(pecas_os.valor_unitario * pecas_os.quantidade)) as valor_final
+from ordens_servicos
+join veiculos on ordens_servicos.veiculo_id = veiculos.id
+join mecanicos on ordens_servicos.mecanico_id = mecanicos.id
+join pecas_os on ordens_servicos.id = pecas_os.os_id
+group by ordens_servicos.id, veiculos.placa, mecanicos.nome, ordens_servicos.valor_mao_obra, pecas_os.valor_unitario, pecas_os.quantidade
+
+select
+mecanicos,
+mecanicos.valor_hora
+from
+mecanicos
+where (mecanicos.valor_hora > 90.00)
+
+select
+mecanicos.nome,
+mecanicos.especialidade,
+ordens_servicos.status,
+(mecanicos.valor_hora + SUM(ordens_servicos.valor_mao_obra)) as valor_faturado_total
+from
+mecanicos
+join ordens_servicos on mecanicos.id = ordens_servicos.mecanico_id
+where ordens_servicos.status = 'Concluida'
+group by mecanicos.nome, mecanicos.especialidade, ordens_servicos.status, mecanicos.valor_hora
