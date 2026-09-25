@@ -83,3 +83,31 @@ join planos on planos.id = modalidades.plano_id
 order by valor_total desc
 
 SELECT * FROM vw_modalidades_custo_estimado;
+
+CREATE VIEW vw_matriculas_ativas AS
+SELECT alunos.nome,
+alunos.cpf,
+modalidades.nome as nome_modalidades,
+modalidades.sala,
+itens_matriculas.duracao_meses,
+matriculas.data_inicio,
+matriculas.status
+from matriculas
+join alunos on matriculas.aluno_id = alunos.id
+join itens_matriculas on itens_matriculas.matriculas_id = matriculas.id
+join modalidades on modalidades.id = itens_matriculas.modalidades_id
+where (matriculas.status = 'ATIVA')
+
+select * from vw_matriculas_ativas
+
+CREATE VIEW vw_alunos_vip AS
+select
+alunos.nome,
+matriculas.status,
+(itens_matriculas.valor_mensal_aplicado * itens_matriculas.duracao_meses + itens_matriculas.taxa_adesao) as valor_investido
+from matriculas
+join alunos on matriculas.aluno_id = alunos.id
+join itens_matriculas on itens_matriculas.matriculas_id = matriculas.id
+where (matriculas.status = 'ATIVA')
+having (valor_investido > 1000)
+
